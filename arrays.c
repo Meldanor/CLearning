@@ -232,6 +232,7 @@ const int MIN_OPERATION             = 2;
 const int SUM_OPERATION             = 3;
 const int PRODUCT_OPERATION         = 4;
 const int BUBBLE_SORT_OPERATION     = 5;
+const int SELECTION_SORT_OPERATION  = 6;
 
 int operationMenu(struct Array *array) {
     printf("\n---- Fill Array Menu ----\n");
@@ -240,6 +241,7 @@ int operationMenu(struct Array *array) {
     printf("(%d) - Sum of array\n", SUM_OPERATION);
     printf("(%d) - Product of array\n", PRODUCT_OPERATION);
     printf("(%d) - Sort array(BubbleSort)\n", BUBBLE_SORT_OPERATION );
+    printf("(%d) - Sort array(SelectionSort)\n", SELECTION_SORT_OPERATION );
 
     printf("Your option: ");
     int option;
@@ -264,6 +266,15 @@ int operationMenu(struct Array *array) {
     else if (option == BUBBLE_SORT_OPERATION) {
         clock_t start = clock();
         bubbleSort(array);
+        clock_t end = clock();
+        double zeit = (double)(end-start) / (double)CLOCKS_PER_SEC;
+        printf("Time needed: %.2fs\n", zeit); 
+        if(array->length <= 20)
+            printValues(array);
+    }
+    else if (option == SELECTION_SORT_OPERATION) {
+        clock_t start = clock();
+        selectionSort(array);
         clock_t end = clock();
         double zeit = (double)(end-start) / (double)CLOCKS_PER_SEC;
         printf("Time needed: %.2fs\n", zeit); 
@@ -324,7 +335,7 @@ int getProduct(struct Array *array) {
     return product;
 }
 
-int bubbleSort(struct Array *array) {
+void bubbleSort(struct Array *array) {
     int i;
     int j;
     int *ptr = array->values;
@@ -340,4 +351,21 @@ void swap(int i, int j , int *ptr) {
     int temp = ptr[i];
     ptr[i] = ptr[j];
     ptr[j] = temp;
+}
+
+void selectionSort(struct Array *array) {
+    int i,j;
+    int iMin;
+    int length = array->length;
+    for (j = 0; j < length - 1; ++j) {
+        iMin = j;
+        for(i = j + 1; i < length ; ++i) {
+            if(array->values[i] < array->values[iMin]) {
+                iMin = i;
+            }
+        }
+
+        if (iMin != j) 
+            swap(j, iMin, array->values);
+    }
 }

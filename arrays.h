@@ -22,5 +22,7 @@ int getMax();
 int getMin();
 int getSum();
 int getProduct();
+void bubbleSort();
+void selectionSort();
 
 void swap();
