@@ -127,7 +127,7 @@ int randomSize() {
     scanf("%d", &max);    
     // GENERATE NUMBER IN [1,MAX]
     srand(time(NULL));
-    int    length = rand() % max;
+    int length = rand() % max;
     if (length == 0)
         length = max;
     printf("Size: %d\n", length);
@@ -135,7 +135,7 @@ int randomSize() {
 }
 
 int readSize() {
-    int    length;
+    int length;
     printf("Size: ");
     scanf("%d", &length);
     return length;
@@ -146,8 +146,8 @@ int readSize() {
 // ---------------------------------
 
 const int RANDOM_VALUES         = 1;
-const int GIVEN_VALUES         = 2;
-const int ASCENDING_VALUES     = 3;
+const int GIVEN_VALUES          = 2;
+const int ASCENDING_VALUES      = 3;
 const int DESCENDING_VALUES     = 4;
 
 int fillMenu(struct Array *array) {
@@ -157,7 +157,7 @@ int fillMenu(struct Array *array) {
     printf("(%d) - Number from 1 to N\n",ASCENDING_VALUES);
     printf("(%d) - Number from N to 1\n",DESCENDING_VALUES);
     printf("Your option: ");
-       int option;
+    int option;
     scanf("%d", &option);
 
     if (option == RANDOM_VALUES) {
