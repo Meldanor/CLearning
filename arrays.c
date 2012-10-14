@@ -2,12 +2,9 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <time.h>
 
-// STRUCT TO ENCAPSULATE VALUES AND THE LENGTH
-struct Array {
-    int *values;
-    int length;
-};
+#include "arrays.h"
 
 // PRINT THE ARRAY
 void printArray(struct Array *array) {
@@ -21,6 +18,7 @@ void printArray(struct Array *array) {
     printf("}\n");
 }
 
+// PRINT ONLY THE VALUES
 void printValues(struct Array *array) {
     int *pointer = array->values;
     int i;
@@ -33,41 +31,38 @@ void printValues(struct Array *array) {
     printf("]\n");
 }
 
-// METHOD PROTOTYPS
-struct Array *sizeMenu();
-
-int fillMenu();
-
-int operationMenu();
-
 // --------------------------------- 
 // ----------- MAIN MENU -----------
 // --------------------------------- 
 
 int main(void) {
 
-	printf("-----------------\n");
-	printf("----ArrayTest----\n");
-	printf("-----------------\n\n");
+    printf("-----------------\n");
+    printf("----ArrayTest----\n");
+    printf("-----------------\n\n");
 
     // START SIZE MENU TO GET THE ARRAY SIZE
-	struct Array *array = sizeMenu();
-	// WRONG OPTION
-	if (NULL == array) 
-		return EXIT_FAILURE;
+    struct Array *array = sizeMenu();
+    // WRONG OPTION
+    if (NULL == array) 
+        return EXIT_FAILURE;
 
     // START FILL MENU TO FILL THE ARRAY
-	if (fillMenu(array) == EXIT_FAILURE) {
+    if (fillMenu(array) == EXIT_FAILURE) {
         return EXIT_FAILURE;
     }
 
-    printValues(array);
+    // PRINT VALUES WHEN THEY ARE ONLY A FEW
+    if (array->length <= 20)
+        printValues(array);
 
+    // START OPERATION MENU
     if (operationMenu(array) == EXIT_FAILURE) {
         return EXIT_FAILURE;
     }
 
-	free(array->values);
+    // FREE THE MEMORY FOR THE ARRAYS
+    free(array->values);
     free(array);
     return EXIT_SUCCESS;
 }
@@ -79,32 +74,29 @@ int main(void) {
 const int RANDOM_SIZE = 1;
 const int GIVEN_SIZE  = 2;
 
-int randomSize();
-int readSize();
-
 struct Array *sizeMenu() {
-	printf("---- Array Size Menu ----\n");
-	printf("(%d) - Random Size\n",RANDOM_SIZE);
-	printf("(%d) - Size by User\n",GIVEN_SIZE);
-	printf("Your option: ");
+    printf("---- Array Size Menu ----\n");
+    printf("(%d) - Random Size\n",RANDOM_SIZE);
+    printf("(%d) - Size by User\n",GIVEN_SIZE);
+    printf("Your option: ");
 
 
-	int option;
-	scanf("%d", &option);
-	int length;
+    int option;
+    scanf("%d", &option);
+    int length;
     // USER WANT A RANDOM SIZE
-	if (option == RANDOM_SIZE) {
-		length = randomSize();
-	}
+    if (option == RANDOM_SIZE) {
+        length = randomSize();
+    }
     // USER WANT TO SET THE SIZE BY HIMESELF
-	else if (option == GIVEN_SIZE) {
+    else if (option == GIVEN_SIZE) {
         length = readSize();
-	}
+    }
     // WRONG OPTION
-	else {
+    else {
         printf("Wrong option!\n");
-		return NULL;
-	}
+        return NULL;
+    }
 
     if (length <= 0) {
         printf("Length must be positive!");
@@ -113,33 +105,37 @@ struct Array *sizeMenu() {
 
     // CREATE THE ARRAY
     struct Array *myArray = malloc(sizeof(struct Array));
-	myArray->length = length;
-	myArray->values = malloc(sizeof(int) * length);
+    if (NULL == myArray) {
+        printf("Not enough memory!");
+        return NULL;   
+    }
+    myArray->length = length;
+    myArray->values = malloc(sizeof(int) * length);
 
     // CAN'T RESERVE ENOUGH MEMORY
-	if (NULL == myArray->values) {
-		printf("Size is to high!");
-		return NULL;
-	} 
+    if (NULL == myArray->values) {
+        printf("Size is to high!");
+        return NULL;
+    } 
 
     return myArray;
 }
 
 int randomSize() {
     printf("Size is from 1 until ");
-	int max;
-	scanf("%d", &max);	
+    int max;
+    scanf("%d", &max);    
     // GENERATE NUMBER IN [1,MAX]
-	srand(time(NULL));
-    int	length = rand() % max;
-	if (length == 0)
-		length = max;
-	printf("Size: %d\n", length);
+    srand(time(NULL));
+    int    length = rand() % max;
+    if (length == 0)
+        length = max;
+    printf("Size: %d\n", length);
     return length;
 }
 
 int readSize() {
-    int	length;
+    int    length;
     printf("Size: ");
     scanf("%d", &length);
     return length;
@@ -149,25 +145,20 @@ int readSize() {
 // ----- ARRAY VALUE FUNCTIONS -----
 // ---------------------------------
 
-void randomArray();
-void readArray();
-void createAscArray();
-void createDescArray();
-
-const int RANDOM_VALUES 		= 1;
-const int GIVEN_VALUES 		= 2;
-const int ASCENDING_VALUES 	= 3;
-const int DESCENDING_VALUES 	= 4;
+const int RANDOM_VALUES         = 1;
+const int GIVEN_VALUES         = 2;
+const int ASCENDING_VALUES     = 3;
+const int DESCENDING_VALUES     = 4;
 
 int fillMenu(struct Array *array) {
-	printf("\n---- Fill Array Menu ----\n");
-	printf("(%d) - Random Values\n", RANDOM_VALUES);
-	printf("(%d) - Given Values\n",GIVEN_VALUES);
-	printf("(%d) - Number from 1 to N\n",ASCENDING_VALUES);
-	printf("(%d) - Number from N to 1\n",DESCENDING_VALUES);
-	printf("Your option: ");
-   	int option;
-	scanf("%d", &option);
+    printf("\n---- Fill Array Menu ----\n");
+    printf("(%d) - Random Values\n", RANDOM_VALUES);
+    printf("(%d) - Given Values\n",GIVEN_VALUES);
+    printf("(%d) - Number from 1 to N\n",ASCENDING_VALUES);
+    printf("(%d) - Number from N to 1\n",DESCENDING_VALUES);
+    printf("Your option: ");
+       int option;
+    scanf("%d", &option);
 
     if (option == RANDOM_VALUES) {
          randomArray(array);
@@ -192,7 +183,7 @@ int fillMenu(struct Array *array) {
 void randomArray(struct Array *array) {
     int *pointer = array->values;
     int i;
-	srand(time(NULL));
+    srand(time(NULL));
     int value;
     int length = array->length;
     for(i = 0; i < length; ++i, ++pointer) {
@@ -236,28 +227,23 @@ void createDescArray(struct Array *array) {
 // --- ARRAY OPERATION FUNCTIONS ---
 // --------------------------------- 
 
-int getMax();
-int getMin();
-int getSum();
-int getProduct();
-
-const int MAX_OPERATION         = 1;
-const int MIN_OPERATION         = 2;
-const int SUM_OPERATION         = 3;
-const int PRODUCT_OPERATION     = 4;
-const int BUBBLE_SORT_OPERATION = 5;
+const int MAX_OPERATION             = 1;
+const int MIN_OPERATION             = 2;
+const int SUM_OPERATION             = 3;
+const int PRODUCT_OPERATION         = 4;
+const int BUBBLE_SORT_OPERATION     = 5;
 
 int operationMenu(struct Array *array) {
-	printf("\n---- Fill Array Menu ----\n");
-	printf("(%d) - Maximum of array\n", MAX_OPERATION);
-	printf("(%d) - Minimum of array\n", MIN_OPERATION);
-	printf("(%d) - Sum of array\n", SUM_OPERATION);
-	printf("(%d) - Product of array\n", PRODUCT_OPERATION);
-	printf("(%d) - Sort array(BubbleSort)\n", BUBBLE_SORT_OPERATION );
+    printf("\n---- Fill Array Menu ----\n");
+    printf("(%d) - Maximum of array\n", MAX_OPERATION);
+    printf("(%d) - Minimum of array\n", MIN_OPERATION);
+    printf("(%d) - Sum of array\n", SUM_OPERATION);
+    printf("(%d) - Product of array\n", PRODUCT_OPERATION);
+    printf("(%d) - Sort array(BubbleSort)\n", BUBBLE_SORT_OPERATION );
 
-	printf("Your option: ");
-   	int option;
-	scanf("%d", &option);
+    printf("Your option: ");
+    int option;
+    scanf("%d", &option);
 
     if (option == MAX_OPERATION) {
         int result = getMax(array);
@@ -276,8 +262,13 @@ int operationMenu(struct Array *array) {
         printf("Product: %d\n", result);
     }
     else if (option == BUBBLE_SORT_OPERATION) {
+        clock_t start = clock();
         bubbleSort(array);
-        printValues(array);
+        clock_t end = clock();
+        double zeit = (double)(end-start) / (double)CLOCKS_PER_SEC;
+        printf("Time needed: %.2fs\n", zeit); 
+        if(array->length <= 20)
+            printValues(array);
     }
     else {
         printf("Wrong option!\n");
@@ -332,8 +323,6 @@ int getProduct(struct Array *array) {
 
     return product;
 }
-
-void swap();
 
 int bubbleSort(struct Array *array) {
     int i;
