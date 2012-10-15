@@ -210,3 +210,29 @@ void *get(struct MyList *list, int index) {
 
     return cur->value;
 }
+
+void *getAll(struct MyList *list, size_t elementSize) {
+        if (list == NULL) {
+        printf("List is null!\n");  
+        return NULL;
+    }
+    if (isEmpty(list)) {
+        printf("List is empty!\n");
+        return NULL;
+    }
+
+    void **elements = malloc(elementSize * list->size);
+    if (NULL == elements) {
+        printf("Not enough memory!\n");
+        return NULL;
+    }
+    
+    struct MyList *cur = list;
+    int i;
+    for (i = 0; i < list->size ; ++i) {
+        elements[i] = cur->value;
+        cur = cur->next;
+    }
+    
+    return elements;
+}

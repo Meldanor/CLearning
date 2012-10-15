@@ -26,6 +26,13 @@ int testIntList(void) {
        add(list,(int *)i);
 
     printList(list, printInt);
+
+    int *ptr = (int*)(getAll(list, sizeof(int)));
+    printf("Number as one sequentiel array: ");
+    for (i = 0; i < 10 ;++i) {
+        printf("%d ", ptr[i]);
+    }
+/*
     int value = (int)getFirst(list);
     printf("First Element: %d\n", value);
 
@@ -36,6 +43,8 @@ int testIntList(void) {
     printf("Middle(Index:%d) Element: %d\n", list->size/2, value);
 
     value = (int)get(list, 1000);
+
+*/
 /*
     printf("\n");
     printList(list, printInt);
