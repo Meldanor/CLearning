@@ -11,4 +11,7 @@ bool isEmpty(struct MyList *list);
 
 void clear(struct MyList *list);
 
+void *removeFirst(struct MyList *list);
+void *removeLast(struct MyList *list);
+
 void printList(struct MyList *list, void (*printElem) (void *elem));

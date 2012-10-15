@@ -72,6 +72,48 @@ void printList(struct MyList *list, void (*printElem) (void *elem)) {
     printf("]}\n");
 }
 
+void *removeFirst(struct MyList *list) {
+    if (list == NULL) {
+        printf("List is null!\n");
+        return NULL;
+    }
+    if (isEmpty(list)) {
+        printf("List is empty!\n");
+        return NULL;
+    }
+    void *value = list->value;
+
+    *list = *(list->next);
+    struct MyList *cur = list;
+    return value;
+}
+
+void *removeLast(struct MyList *list) {
+    if (list == NULL) {
+        printf("List is null!\n");
+        return NULL;
+    }
+    if (isEmpty(list)) {
+        printf("List is empty!\n");
+        return NULL;
+    }
+    struct MyList *cur = list;
+    struct MyList *next = cur->next;
+
+    while (next->next != NULL) {
+        cur->size--;
+        cur = next;
+        next = cur->next;
+    }
+    
+    void *value = next->value;
+    cur->next = NULL;
+    free(next);
+
+
+    return value;
+}
+
 void clear(struct MyList *list) {
     if (list == NULL) {
         printf("List is null!\n");  
