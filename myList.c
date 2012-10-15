@@ -82,9 +82,7 @@ void *removeFirst(struct MyList *list) {
         return NULL;
     }
     void *value = list->value;
-
     *list = *(list->next);
-    struct MyList *cur = list;
     return value;
 }
 
@@ -109,7 +107,6 @@ void *removeLast(struct MyList *list) {
     void *value = next->value;
     cur->next = NULL;
     free(next);
-
 
     return value;
 }
