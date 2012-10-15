@@ -16,4 +16,8 @@ void clear(struct MyList *list);
 void *removeFirst(struct MyList *list);
 void *removeLast(struct MyList *list);
 
+void *getFirst(struct MyList *list);
+void *getLast(struct MyList *list);
+void *get(struct MyList *list, int index);
+
 void printList(struct MyList *list, void (*printElem) (void *elem));

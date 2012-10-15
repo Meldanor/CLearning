@@ -158,3 +158,55 @@ void clear(struct MyList *list) {
     start = NULL;
     printf("Cleared list!\n");
 }
+
+void *getFirst(struct MyList *list) {
+    if (list == NULL) {
+        printf("List is null!\n");  
+        return NULL;
+    }
+    if (isEmpty(list)) {
+        printf("List is empty!\n");
+        return NULL;
+    }
+    return list->value;
+}
+
+void *getLast(struct MyList *list) {
+    if (list == NULL) {
+        printf("List is null!\n");  
+        return NULL;
+    }
+    if (isEmpty(list)) {
+        printf("List is empty!\n");
+        return NULL;
+    }
+
+    struct MyList *cur = list;
+    while(cur->next != NULL) 
+        cur = cur->next;
+
+    return cur->value;
+}
+
+void *get(struct MyList *list, int index) {
+    if (list == NULL) {
+        printf("List is null!\n");  
+        return NULL;
+    }
+    if (isEmpty(list)) {
+        printf("List is empty!\n");
+        return NULL;
+    }
+    if (index >= list->size) {
+        printf("Index out of range! Index: %d Size: %d\n", index, list->size);
+        return NULL;
+    }
+
+    struct MyList *cur = list;
+    while (index > 0) {
+        cur = cur->next;
+        --index;
+    }
+
+    return cur->value;
+}

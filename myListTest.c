@@ -25,6 +25,18 @@ int testIntList(void) {
     for (i = 1 ; i <= 10; ++i)
        add(list,(int *)i);
 
+    printList(list, printInt);
+    int value = (int)getFirst(list);
+    printf("First Element: %d\n", value);
+
+    value = (int)getLast(list);
+    printf("First Element: %d\n", value);
+    
+    value = (int)get(list, list->size/2);
+    printf("Middle(Index:%d) Element: %d\n", list->size/2, value);
+
+    value = (int)get(list, 1000);
+/*
     printf("\n");
     printList(list, printInt);
 
@@ -34,6 +46,7 @@ int testIntList(void) {
     
     list = addFirst(list, (int *)value);
     printList(list, printInt);
+*/
 
 /*    value = (int) removeFirst(list);
     printf("Removed value = %d\n", value);
