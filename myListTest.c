@@ -31,7 +31,11 @@ int testIntList(void) {
     int value = (int) removeFirst(list);
     printf("Removed value = %d\n", value);
     printList(list, printInt);
-    value = (int) removeFirst(list);
+    
+    list = addFirst(list, (int *)value);
+    printList(list, printInt);
+
+/*    value = (int) removeFirst(list);
     printf("Removed value = %d\n", value);
     printList(list, printInt);
 
@@ -39,7 +43,7 @@ int testIntList(void) {
     printf("Removed value = %d\n", value);
     printList(list, printInt);
 
-    clear(list);
+    clear(list); */
     return EXIT_SUCCESS;
 }
 

@@ -5,7 +5,9 @@ struct MyList {
 };
 
 struct MyList *emptyList(void);
+
 struct MyList *add(struct MyList *list, void *elem);
+struct MyList *addFirst(struct MyList *list, void *elem);
 
 bool isEmpty(struct MyList *list);
 

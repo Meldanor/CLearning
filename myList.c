@@ -47,6 +47,30 @@ struct MyList *add(struct MyList *list, void *element) {
     return list;
 }
 
+struct MyList *addFirst(struct MyList *list, void *element) {
+    if (NULL == list) {
+        printf("List is null!\n");
+        return NULL;
+    }
+    if(isEmpty(list)) {
+        list->value = element;
+        list->size = 1;
+        return list;
+    }
+    else {
+        struct MyList *first = emptyList();
+        if (NULL == first) {
+            printf("Not enough memory for new element!\n");
+            return NULL;
+        }
+        first->value = element;
+        first->size = list->size + 1;
+        first->next = list;
+        // *list = *first; -- TODO: Some error here :/
+        return first;
+    }
+}
+
 bool isEmpty(struct MyList *list) {
     return NULL == list || (NULL != list && list->size == 0);
 }
