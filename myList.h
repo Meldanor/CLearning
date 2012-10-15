@@ -1,14 +1,14 @@
 struct MyList {
     struct MyList *next;
-    int value;
+    void *value;
     int size;
 };
 
-struct MyList *emptyList();
-struct MyList *add();
+struct MyList *emptyList(void);
+struct MyList *add(struct MyList *list, void *elem);
 
-bool isEmpty();
+bool isEmpty(struct MyList *list);
 
-void clear();
+void clear(struct MyList *list);
 
-void printList();
+void printList(struct MyList *list, void (*printElem) (void *elem));

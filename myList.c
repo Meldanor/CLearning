@@ -5,44 +5,6 @@
 
 #include "myList.h"
 
-int main(void) {
-    printf("Create empty list...\n");
-    struct MyList *list = emptyList();
-    if (NULL == list)
-        return EXIT_FAILURE;   
-
-    printf("Size: %d!\n", list->size);
-    printf("Add 1...\n");
-    list = add(list, 1); 
-    printf("Size: %d!\n", list->size);
-    printf("Add 2...\n");
-    list = add(list, 2); 
-    printf("Size: %d!\n", list->size);
-    printf("Print list...\n");
-    printList(list);
-    
-    printf("Add elements from 2 until 10 to list...\n");
-    int i;
-    for (i = 3 ; i <= 10; ++i)
-        add(list,i);
-
-    printf("Print list...\n");
-    printList(list);
-
-    printf("Print all sub lists lists\n\n");
-    
-    struct MyList *cur = list;
-    while (cur != NULL) {
-        printList(cur);
-        cur = cur->next;
-    }
-    printf("\n\n");
-
-    printf("Clear list...\n");
-    clear(list);
-    return EXIT_SUCCESS;
-}
-
 struct MyList *emptyList(void) {
     struct MyList *list;
     list = malloc(sizeof(struct MyList));
@@ -57,7 +19,7 @@ struct MyList *emptyList(void) {
     return list;
 }
 
-struct MyList *add(struct MyList *list, int element) {
+struct MyList *add(struct MyList *list, void *element) {
     if (NULL == list) {
         printf("List is null!\n");
         return NULL;
@@ -89,7 +51,7 @@ bool isEmpty(struct MyList *list) {
     return NULL == list || (NULL != list && list->size == 0);
 }
 
-void printList(struct MyList *list) {
+void printList(struct MyList *list, void (*printElem) (void *elem)) {
     if (NULL == list) {
         printf("List is null!\n");
         return;
@@ -102,10 +64,12 @@ void printList(struct MyList *list) {
     printf("MyList={Size:%d;Values=[", list->size);
     struct MyList *cur = list;
     while (cur->next != NULL ) {
-        printf("%d,",cur->value);
+        (*printElem)(cur->value);
+        printf(",");
         cur = cur->next;
     }
-    printf("%d]}\n",cur->value);
+    (*printElem)(cur->value);
+    printf("]}\n");
 }
 
 void clear(struct MyList *list) {
