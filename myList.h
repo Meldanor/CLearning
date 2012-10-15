@@ -9,4 +9,6 @@ struct MyList *add();
 
 bool isEmpty();
 
+void clear();
+
 void printList();

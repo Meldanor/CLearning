@@ -37,6 +37,9 @@ int main(void) {
         cur = cur->next;
     }
     printf("\n\n");
+
+    printf("Clear list...\n");
+    clear(list);
     return EXIT_SUCCESS;
 }
 
@@ -103,4 +106,28 @@ void printList(struct MyList *list) {
         cur = cur->next;
     }
     printf("%d]}\n",cur->value);
+}
+
+void clear(struct MyList *list) {
+    if (list == NULL) {
+        printf("List is null!\n");  
+        return;
+    }
+    if (isEmpty(list)) {
+        free(list);
+        return;
+    }
+    struct MyList *start = list;
+    struct MyList *next1, *next2;
+    next1 = start->next;
+    while (next1 != NULL) {
+        next2 = start->next->next;
+        start->next = next2;
+        free(next1);
+        next1 = next2;
+    }
+    free(start->next);
+    free(start);
+    start = NULL;
+    printf("Cleared list!\n");
 }
