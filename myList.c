@@ -28,6 +28,15 @@ int main(void) {
 
     printf("Print list...\n");
     printList(list);
+
+    printf("Print all sub lists lists\n\n");
+    
+    struct MyList *cur = list;
+    while (cur != NULL) {
+        printList(cur);
+        cur = cur->next;
+    }
+    printf("\n\n");
     return EXIT_SUCCESS;
 }
 
@@ -47,28 +56,28 @@ struct MyList *emptyList(void) {
 
 struct MyList *add(struct MyList *list, int element) {
     if (NULL == list) {
-        printf("List is null!");
+        printf("List is null!\n");
         return NULL;
     }
-    
     if(isEmpty(list)) {
         list->value = element;
         list->size = 1;
     }
     else {
-        struct MyList *cur = list;
-        while (cur->next != NULL)
-            cur = cur->next;
         struct MyList *next = emptyList();
         if (NULL == next) {
-            printf("Not enough memory for new element!");
+            printf("Not enough memory for new element!\n");
             return NULL;
         }
         next->value = element;
-        next->size = list->size - 1;
-
+        next->size = 1;
+        struct MyList *cur = list;
+        while (cur->next != NULL) {
+            cur->size++;
+            cur = cur->next;
+        }
+        cur->size++;
         cur->next = next;
-        list->size++;
     }
     return list;
 }
