@@ -27,3 +27,7 @@ void *removeFirst(struct LinkedList *list);
 void *removeLast(struct LinkedList *list);
 
 bool removeElement(struct LinkedList *list, void *element);
+
+bool clearList(struct LinkedList *list);
+
+void **toArray(struct LinkedList *list);

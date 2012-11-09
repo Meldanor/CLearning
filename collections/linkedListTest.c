@@ -11,6 +11,7 @@ int main(void) {
     puts("\n-----------------------");
     puts("--- LinkedList Test ---");
     puts("-----------------------\n");
+    
     puts("--- Adding Elements ---");
     for (i = 0 ; i <= 5 ; ++i) {
         e = (1L << i);
@@ -51,5 +52,29 @@ int main(void) {
         node = node->next;
     }
     puts("");
+
+    puts("--- Clear List ---");
+    b = clearList(list);
+    printf("Cleared: %s\n", b ? "true" : "false");
+    printf("IsEmpty: %s\n\n", isEmpty(list) ? "true" : "false");
+
+    puts("--- Adding Elements ---");
+    for (i = 0 ; i <= 10 ; ++i) {
+        e = (1L << i);
+        add(list, (void *)e);
+    }
+    printf("HasElements: %s\n", !isEmpty(list) ? "true" : "false");
+    puts("");
+    
+    puts("--- To Array ---");
+    void **array = toArray(list);
+    printf("ToArray: %s\n\n", (array != NULL) ? "true" : "false");
+    if (array != NULL) {
+        puts("--- Printing Elements ---");
+        for (i = 0 ; i < list->size; ++i)
+            printf("Value: %ld\n", (long)array[i]);
+        puts("");
+    }
 }
+
 
