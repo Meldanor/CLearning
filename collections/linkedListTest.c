@@ -5,7 +5,7 @@
 
 int main(void) {
 
-    struct LinkedList *list = create();
+    struct LinkedList *list = newLinkedList();
     long i;
     long e;
     puts("\n-----------------------");
