@@ -17,6 +17,8 @@ struct LinkedList *create(void) {
     list->first = NULL;
     list->last = NULL;
     list->size = 0;
+
+    return list;
 }
 
 bool isEmpty(struct LinkedList *list) {
@@ -119,24 +121,31 @@ void *removeAt(struct LinkedList *list, int index) {
         perror("LinkedList.c:removeAt : Index outside the list!");
         return NULL;    
     }
+    if (index == 0)
+        return removeFirst(list);
+    if (index == list->size - 1)
+        return removeLast(list);
     
     struct Node *cur;
-    bool forward = index < (list->size / 2 ); 
+    bool forward = (index < (list->size / 2 ));    
+    printf("Forwad: %s\n\n", forward ? "true" : "false");
     if (forward) {
-        cur = list->last;
-        index = list->size - index;
+        cur = list->first;        
     }
-    else
-        cur = list->first;
-
+    else {
+        cur = list->last;
+        index = list->size - index;    
+    }
     if (forward) {
-        while(index-- != 0) {
-            cur = cur->next;   
+        while(index != 0) {
+            cur = cur->next;
+            --index;  
         }
     }
     else {
         while(index-- != 0) {
             cur = cur->prev;
+            --index;
         }
     }
     
@@ -144,7 +153,10 @@ void *removeAt(struct LinkedList *list, int index) {
         cur->next->prev = cur->prev;
     if (cur->prev != NULL)
         cur->prev->next = cur->next;
+    void *value = cur->value;
     free(cur);
+    list->size--;
+    return value;
 }
 
 bool removeElement(struct LinkedList *list, void *element) {
@@ -195,7 +207,7 @@ bool clearList(struct LinkedList *list) {
 
 void **toArray(struct LinkedList *list) {
     if (list == NULL) {
-        perror("LinkedList.c:clearList : List is null!");
+        perror("LinkedList.c:toArray : List is null!");
         return NULL;
     }
     if (isEmpty(list)) {                

@@ -30,7 +30,7 @@ int main(void) {
     puts("");
 
     puts("--- Removing 1 Element(In List) ---");
-    bool b = removeElement(list, 2);
+    bool b = (bool)removeElement(list, 2);
     printf("Removed: %s\n\n", b ? "true" : "false");
     
     puts("--- Printing Elements ---");
@@ -42,7 +42,7 @@ int main(void) {
     puts("");
     
     puts("--- Removing 1 Element(Not In List) ---");
-    b = removeElement(list, 3);
+    b = (bool)removeElement(list, 3);
     printf("Removed: %s\n\n", b ? "true" : "false");
     
     puts("--- Printing Elements ---");
@@ -75,6 +75,23 @@ int main(void) {
             printf("Value: %ld\n", (long)array[i]);
         puts("");
     }
+
+
+    puts("--- Remove Element at 0 ---");
+    void *removedValue = removeAt(list, 0);
+    if (removedValue != NULL)
+        printf("Value: %ld\n", (long)removedValue);
+
+    puts("--- Print Elements ---");
+    array = toArray(list);
+    printf("ToArray: %s\n\n", (array != NULL) ? "true" : "false");
+    if (array != NULL) {
+        puts("--- Printing Elements ---");
+        for (i = 0 ; i < list->size; ++i)
+            printf("Value: %ld\n", (long)array[i]);
+        puts("");
+    }
+
 }
 
 
